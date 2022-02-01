@@ -17,6 +17,11 @@ const (
 	basicDataMenu       = "#miS0-4 > a"
 	consolidatedReports = "#miS3-8-1 > a"
 
+	propertyLabel = "#PropertyCode_LookupCode"
+	chargeCode    = "#ChargeCode_LookupCode"
+	habMonth      = "#HAPMonth_TextBox"
+	submitButton  = "#Submit_Button"
+
 	password = "rwt3fxq@egb3YEG*zvn"
 	username = "martha"
 )
@@ -61,7 +66,7 @@ func main() {
 	}
 
 	//go to Basic iData Menu
-	if err := ch.Run(
+	/* if err := ch.Run(
 		ctx,
 		ch.WaitVisible(menuSelector, ch.ByQuery),
 		ch.Click(menuSelector, ch.ByQuery),
@@ -70,9 +75,9 @@ func main() {
 		ch.Click(basicDataMenu, ch.ByQuery),
 	); err != nil {
 		fmt.Println("Error", err)
-	}
+	} */
 
-	//go to Basic iData Menu
+	//go to Consolidated
 	if err := ch.Run(
 		ctx,
 		ch.WaitVisible(menuSelector, ch.ByQuery),
@@ -84,61 +89,26 @@ func main() {
 		fmt.Println("Error", err)
 	}
 
+	//Enter consolidated report data
+	//***** Can not perform actions inside iframe*******
+	if err := ch.Run(
+		ctx,
+		//ch.WaitVisible(propertyLabel, ch.ByQuery),
+		//ch.SetValue(propertyLabel, "blvd", ch.ByQuery),
+		//ch.SetValue(chargeCode, "subsidy", ch.ByQuery),
+		//ch.SetValue(habMonth, "01/2022", ch.ByQuery),
+		ch.Click(propertyLabel, ch.ByQuery),
+		ch.KeyEvent("blvd"),
+		ch.Click(chargeCode, ch.ByQuery),
+		ch.KeyEvent("subsidy"),
+		ch.Click(habMonth, ch.ByQuery),
+		ch.KeyEvent("01/2022"),
+		ch.Click(submitButton, ch.ByQuery),
+	); err != nil {
+		fmt.Println("Error", err)
+	}
+
 	//go to add receips
 	fmt.Println("The current URL is: ", url1)
 
-	/* 	//open second tab -- same broser
-	   	ctx2, _ := ch.NewContext(ctx)
-
-	   	// ensure the second tab is created
-	   	if err := ch.Run(ctx2); err != nil {
-	   		panic(err)
-	   	} */
-
-	// get the list of the targets first context
-	/* infos, err := ch.Targets(ctx)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if len(infos) == 0 {
-		log.Println("no targets")
-	}
-
-	//click to open second tab on the same browser
-	if err := ch.Run(
-		ctx,
-		ch.Click(link, ch.ByQuery)); err != nil {
-		println(err.Error())
-		return
-	}
-
-	// get the list of the targets
-	infos2, err := ch.Targets(ctx)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if len(infos) == 0 {
-		log.Println("no targets")
-	}
-
-	fmt.Println(infos, infos2)
-
-	// create context attached to the specified target ID.
-	// this example just uses the first target,
-	// you can search for the one you want.
-	tabCtx, cancel := ch.NewContext(ctx, ch.WithTargetID(infos2[0].TargetID))
-	defer cancel()
-
-	if err := ch.Run(
-		tabCtx,
-		ch.Click(b, ch.ByQuery)); err != nil {
-		fmt.Println("Error", err)
-
-	} */
-
-	/* if err := ch.Run(tabCtx, ch.Navigate("https://www.google.com/")); err != nil {
-		log.Fatal(err)
-	} */
-
-	//time.Sleep(1 * time.Second)
 }
