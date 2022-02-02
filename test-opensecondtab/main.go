@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"log"
 	"time"
+
+	//"time"
 	"utils/chrome"
 
 	ch "github.com/chromedp/chromedp"
 )
 
 const (
-	instaLogginButton = "#react-root > section > nav > div._8MQSO.Cx7Bp > div > div > div.ctQZg.KtFt3 > div > span > a:nth-child(1) > button"
+	instaLogginButton = "#loginForm > a"
 	recordInstaButton = "#bt_instagram3"
 )
 
@@ -52,18 +54,8 @@ func main() {
 	}
 
 	defer cancel()
-	//get new url
-	if err := ch.Run(
-		ctx,
-		ch.Navigate(url),
-		// Get Current URL
-		ch.Location(&vurl2)); err != nil {
-		println(err.Error())
-		return
-	}
-	fmt.Println("The current URL is: ", vurl1)
 
-	time.Sleep(20 * time.Second)
+	//time.Sleep(20 * time.Second)
 	// get the list of the targets first context
 	infos, err := ch.Targets(ctx)
 	if err != nil {
@@ -73,4 +65,28 @@ func main() {
 		log.Println("no targets")
 	}
 
+	//generate new context from first targetID context1
+	tabCtx, cancel := ch.NewContext(ctx, ch.WithTargetID(infos[0].TargetID))
+	defer cancel()
+
+	//get URL Second tab
+	if err := ch.Run(
+		tabCtx,
+		// Get Current URL
+		ch.Location(&vurl2)); err != nil {
+		println(err.Error())
+		return
+	}
+
+	fmt.Println("The second URL is: ", vurl2)
+
+	if err := ch.Run(
+		tabCtx,
+		// Get Current URL
+		ch.Click(instaLogginButton, ch.ByQuery)); err != nil {
+		println(err.Error())
+		return
+	}
+
+	time.Sleep(20 * time.Second)
 }
