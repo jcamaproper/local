@@ -2,12 +2,18 @@ package main
 
 import (
 	"fmt"
+	"time"
 	"utils/chrome"
 
 	ch "github.com/chromedp/chromedp"
 )
 
-func cmain() {
+const (
+	luckyButton  = "body > div.L3eUgb > div.o3j99.ikrT4e.om7nvf > form > div:nth-child(1) > div.A8SBwf > div.FPdoLc.lJ9FBc > center > input.RNmpXc"
+	mobileButton = "#agWOA9yL7u > div > div.masthead-site-nav-container.js-nano-container > nav > ul.masthead-nav-topics > li:nth-child(3) > a"
+)
+
+func main() {
 
 	// Create a context
 	ctx, cancel, err := chrome.StartChrome(false)
@@ -19,80 +25,56 @@ func cmain() {
 
 	//Oper URL
 
-	url := "https://www.yardiaspnc7.com/90927hrd/pages/LoginAdvanced.aspx"
+	url := "https://www.google.com.mx/"
+	//url2 := "https://www.xataka.com/"
 
-	var url1 string
+	var vurl1 string
+	var vurl2 string
 
 	if err := ch.Run(
 		ctx,
 		ch.Navigate(url),
 		// Get Current URL
-		ch.Location(&url1)); err != nil {
+		ch.Location(&vurl1)); err != nil {
 		println(err.Error())
 		return
 	}
 
-	if err := ch.Run(
-		ctx,
-		ch.WaitVisible(userLabel, ch.ByQuery),
-		ch.Click(userLabel, ch.ByQuery),
-		ch.KeyEvent(username),
-		ch.Click(passLabel, ch.ByQuery),
-		ch.KeyEvent(password),
-		ch.SetValue(enviroment, "Test", ch.ByQuery),
-		ch.Click(logginButton, ch.ByQuery),
-	); err != nil {
-		fmt.Println("Error", err)
+	fmt.Println("The current URL is: ", vurl1)
 
+	//open second tab -- same broser
+	ctx2, _ := ch.NewContext(ctx)
+
+	// ensure the second tab is created
+	if err := ch.Run(ctx2); err != nil {
+		panic(err)
 	}
 
-	//go to Basic iData Menu
 	if err := ch.Run(
-		ctx,
-		ch.WaitVisible(menuSelector, ch.ByQuery),
-		ch.Click(menuSelector, ch.ByQuery),
-		ch.KeyEvent("Basic iData Menu"),
-		ch.WaitReady(basicDataMenu, ch.ByQuery),
-		ch.Click(basicDataMenu, ch.ByQuery),
-	); err != nil {
-		fmt.Println("Error", err)
+		ctx2,
+		ch.Navigate(url),
+		// Get Current URL
+		ch.Location(&vurl2)); err != nil {
+		println(err.Error())
+		return
 	}
 
-	//go to Consolidated
+	fmt.Println("The current URL is: ", vurl2)
+	time.Sleep(10 * time.Second)
 	if err := ch.Run(
-		ctx,
-		ch.WaitVisible(menuSelector, ch.ByQuery),
-		ch.Click(menuSelector, ch.ByQuery),
-		ch.KeyEvent("Consolidated"),
-		ch.WaitReady(consolidatedReports, ch.ByQuery),
-		ch.Click(consolidatedReports, ch.ByQuery),
+		ctx2,
+		ch.Click(luckyButton, ch.ByQuery),
 	); err != nil {
-		fmt.Println("Error", err)
+		println(err.Error())
+		return
+	}
+	time.Sleep(10 * time.Second)
+	if err := ch.Cancel(ctx2); err != nil {
+		println(err.Error())
+		return
 	}
 
-	//Enter consolidated report
-	if err := ch.Run(
-		ctx,
-		ch.WaitVisible(menuSelector, ch.ByQuery),
-		ch.Click(menuSelector, ch.ByQuery),
-		ch.KeyEvent("Consolidated"),
-		ch.WaitReady(consolidatedReports, ch.ByQuery),
-		ch.Click(consolidatedReports, ch.ByQuery),
-	); err != nil {
-		fmt.Println("Error", err)
-	}
-
-	//go to add receips
-	fmt.Println("The current URL is: ", url1)
-
-	/* 	//open second tab -- same broser
-	   	ctx2, _ := ch.NewContext(ctx)
-
-	   	// ensure the second tab is created
-	   	if err := ch.Run(ctx2); err != nil {
-	   		panic(err)
-	   	} */
-
+	time.Sleep(20 * time.Second)
 	// get the list of the targets first context
 	/* infos, err := ch.Targets(ctx)
 	if err != nil {

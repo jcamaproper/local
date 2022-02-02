@@ -8,16 +8,16 @@ import (
 )
 
 const (
-	userLabel    = "#Username"
-	passLabel    = "#Password_Text"
-	logginButton = "#cmdLogin1"
-	enviroment   = "#Destination"
+	userLabel   = "#Username"
+	passLabel   = "#Password_Text"
+	loginButton = "#cmdLogin1"
+	environment = "#Destination"
 
 	menuSelector        = "#miSearch > input[type=text]"
 	basicDataMenu       = "#miS0-4 > a"
 	consolidatedReports = "#miS3-8-1 > a"
 
-	propertyLabel = "#PropertyCode_LookupCode"
+	propertyLabel = "PropertyCode_LookupCode"
 	chargeCode    = "#ChargeCode_LookupCode"
 	habMonth      = "#HAPMonth_TextBox"
 	submitButton  = "#Submit_Button"
@@ -36,7 +36,7 @@ func main() {
 	}
 	defer cancel()
 
-	//Oper URL
+	//Open URL
 
 	url := "https://www.yardiaspnc7.com/90927hrd/pages/LoginAdvanced.aspx"
 
@@ -58,15 +58,15 @@ func main() {
 		ch.KeyEvent(username),
 		ch.Click(passLabel, ch.ByQuery),
 		ch.KeyEvent(password),
-		ch.SetValue(enviroment, "Test", ch.ByQuery),
-		ch.Click(logginButton, ch.ByQuery),
+		ch.SetValue(environment, "Test", ch.ByQuery),
+		ch.Click(loginButton, ch.ByQuery),
 	); err != nil {
 		fmt.Println("Error", err)
 
 	}
 
 	//go to Basic iData Menu
-	/* if err := ch.Run(
+	if err := ch.Run(
 		ctx,
 		ch.WaitVisible(menuSelector, ch.ByQuery),
 		ch.Click(menuSelector, ch.ByQuery),
@@ -75,7 +75,7 @@ func main() {
 		ch.Click(basicDataMenu, ch.ByQuery),
 	); err != nil {
 		fmt.Println("Error", err)
-	} */
+	}
 
 	//go to Consolidated
 	if err := ch.Run(
@@ -91,24 +91,28 @@ func main() {
 
 	//Enter consolidated report data
 	//***** Can not perform actions inside iframe*******
+	//var ok bool
 	if err := ch.Run(
 		ctx,
-		//ch.WaitVisible(propertyLabel, ch.ByQuery),
+		ch.WaitReady(propertyLabel, ch.ByJSPath),
 		//ch.SetValue(propertyLabel, "blvd", ch.ByQuery),
 		//ch.SetValue(chargeCode, "subsidy", ch.ByQuery),
 		//ch.SetValue(habMonth, "01/2022", ch.ByQuery),
-		ch.Click(propertyLabel, ch.ByQuery),
-		ch.KeyEvent("blvd"),
-		ch.Click(chargeCode, ch.ByQuery),
-		ch.KeyEvent("subsidy"),
-		ch.Click(habMonth, ch.ByQuery),
-		ch.KeyEvent("01/2022"),
-		ch.Click(submitButton, ch.ByQuery),
+		//ch.Click(propertyLabel, ch.ByID),
+		ch.SetAttributeValue(propertyLabel, "value", "texto prueba", ch.ByJSPath),
+		//ch.Blur(propertyLabel, ch.ByQuery),
+		//ch.KeyEvent("blvd"),
+		//ch.EvaluateAsDevTools(fmt.Sprintf(`document.querySelector("%s").value="texto prueba"`, propertyLabel), &ok),
+		//ch.Click(chargeCode, ch.ByQuery),
+		//ch.KeyEvent("subsidy"),
+		//ch.Click(habMonth, ch.ByQuery),
+		//ch.KeyEvent("01/2022"),
+		ch.Click(submitButton, ch.ByJSPath),
 	); err != nil {
 		fmt.Println("Error", err)
 	}
-
-	//go to add receips
+	//ch.EvaluateAsDevTools(fmt.Sprintf(`document.querySelector("%s").dispatchEvent(new Event("change"))`, securityQuestionInput), &ok),
+	//go to add receipts
 	fmt.Println("The current URL is: ", url1)
 
 }
