@@ -55,7 +55,7 @@ func main() {
 
 	defer cancel()
 
-	//time.Sleep(20 * time.Second)
+	time.Sleep(2 * time.Second)
 	// get the list of the targets first context
 	infos, err := ch.Targets(ctx)
 	if err != nil {
