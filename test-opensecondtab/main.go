@@ -83,7 +83,8 @@ func main() {
 	if err := ch.Run(
 		tabCtx,
 		// Get Current URL
-		ch.Click(instaLogginButton, ch.ByQuery)); err != nil {
+		ch.Click(instaLogginButton, ch.ByQuery),
+	); err != nil {
 		println(err.Error())
 		return
 	}
