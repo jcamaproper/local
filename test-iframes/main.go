@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 	"utils/chrome"
 
 	"github.com/chromedp/cdproto/cdp"
@@ -25,6 +26,13 @@ const (
 	chargeCode        = "#ChargeCode_LookupCode"
 	habMonth          = "#HAPMonth_TextBox"
 	submitButton      = "#Submit_Button"
+
+	//Affordable Consolidated Receip Page Elements
+	affordableIframe = "#filter"
+	checkNumberField = "#CheckNumber_TextBox"
+	postDateField    = "#PostDate_TextBox"
+	postMonthField   = "#PostMonth_TextBox"
+	saveButton       = "#Save_Button"
 
 	//Credentials
 	password = "rwt3fxq@egb3YEG*zvn"
@@ -98,9 +106,11 @@ func main() {
 	//Enter consolidated report data
 
 	//var iframes, forms []*cdp.Node
+	time.Sleep(5 * time.Second)
 	var iframes []*cdp.Node
 	if err := ch.Run(
 		ctx,
+		ch.WaitReady(consolidateIframe, ch.ByID),
 		ch.Nodes(consolidateIframe, &iframes, ch.ByQuery),
 	); err != nil {
 		log.Fatal(err)
@@ -127,6 +137,28 @@ func main() {
 	} */
 	//*************GET IFRAME IN NODES*************
 
+	//*************GET IFRAME IN NODES*************
+	//Affordable Consolidated Receipt
+	time.Sleep(5 * time.Second)
+	if err := ch.Run(
+		ctx,
+		ch.Nodes(consolidateIframe, &iframes, ch.ByQuery),
+	); err != nil {
+		log.Fatal(err)
+	}
+	if err := ch.Run(
+		ctx,
+		ch.WaitReady(checkNumberField, ch.ByID, ch.FromNode(iframes[0])),
+		ch.Click(checkNumberField, ch.ByID, ch.FromNode(iframes[0])),
+		ch.KeyEvent("123456"),
+		ch.Click(postDateField, ch.ByID, ch.FromNode(iframes[0])),
+		ch.KeyEvent("02/03/2022"),
+		ch.Click(postMonthField, ch.ByID, ch.FromNode(iframes[0])),
+		ch.KeyEvent("02"),
+		//ch.Click(saveButton, ch.ByID, ch.FromNode(iframes[0])),
+	); err != nil {
+		log.Fatal(err)
+	}
 	/* func TestQueryIframe(t *testing.T) {
 		t.Parallel()
 
@@ -175,27 +207,27 @@ func main() {
 	//Enter consolidated report data
 	//***** Can not perform actions inside iframe*******
 	//var ok bool
-	if err := ch.Run(
-		ctx,
-		ch.WaitReady(propertyLabel, ch.ByJSPath),
-		//ch.SetValue(propertyLabel, "blvd", ch.ByQuery),
-		//ch.SetValue(chargeCode, "subsidy", ch.ByQuery),
-		//ch.SetValue(habMonth, "01/2022", ch.ByQuery),
-		//ch.Click(propertyLabel, ch.ByID),
-		ch.SetAttributeValue(propertyLabel, "value", "texto prueba", ch.ByJSPath),
-		//ch.Blur(propertyLabel, ch.ByQuery),
-		//ch.KeyEvent("blvd"),
-		//ch.EvaluateAsDevTools(fmt.Sprintf(`document.querySelector("%s").value="texto prueba"`, propertyLabel), &ok),
-		//ch.Click(chargeCode, ch.ByQuery),
-		//ch.KeyEvent("subsidy"),
-		//ch.Click(habMonth, ch.ByQuery),
-		//ch.KeyEvent("01/2022"),
-		//ch.Click(submitButton, ch.ByJSPath),
-	); err != nil {
-		fmt.Println("Error", err)
-	}
-	//ch.EvaluateAsDevTools(fmt.Sprintf(`document.querySelector("%s").dispatchEvent(new Event("change"))`, securityQuestionInput), &ok),
-	//go to add receipts
-	fmt.Println("The current URL is: ", url1)
+	/* 	if err := ch.Run(
+	   		ctx,
+	   		ch.WaitReady(propertyLabel, ch.ByJSPath),
+	   		//ch.SetValue(propertyLabel, "blvd", ch.ByQuery),
+	   		//ch.SetValue(chargeCode, "subsidy", ch.ByQuery),
+	   		//ch.SetValue(habMonth, "01/2022", ch.ByQuery),
+	   		//ch.Click(propertyLabel, ch.ByID),
+	   		ch.SetAttributeValue(propertyLabel, "value", "texto prueba", ch.ByJSPath),
+	   		//ch.Blur(propertyLabel, ch.ByQuery),
+	   		//ch.KeyEvent("blvd"),
+	   		//ch.EvaluateAsDevTools(fmt.Sprintf(`document.querySelector("%s").value="texto prueba"`, propertyLabel), &ok),
+	   		//ch.Click(chargeCode, ch.ByQuery),
+	   		//ch.KeyEvent("subsidy"),
+	   		//ch.Click(habMonth, ch.ByQuery),
+	   		//ch.KeyEvent("01/2022"),
+	   		//ch.Click(submitButton, ch.ByJSPath),
+	   	); err != nil {
+	   		fmt.Println("Error", err)
+	   	}
+	   	//ch.EvaluateAsDevTools(fmt.Sprintf(`document.querySelector("%s").dispatchEvent(new Event("change"))`, securityQuestionInput), &ok),
+	   	//go to add receipts
+	   	fmt.Println("The current URL is: ", url1) */
 
 }
