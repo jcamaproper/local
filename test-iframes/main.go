@@ -142,7 +142,8 @@ func main() {
 	time.Sleep(2 * time.Second)
 	if err := ch.Run(
 		ctx,
-		ch.Nodes(consolidateIframe, &iframes, ch.ByQuery),
+		ch.WaitReady(affordableIframe, ch.ByID),
+		ch.Nodes(affordableIframe, &iframes, ch.ByQuery),
 	); err != nil {
 		log.Fatal(err)
 	}
