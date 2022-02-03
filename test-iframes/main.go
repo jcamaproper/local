@@ -106,7 +106,7 @@ func main() {
 	//Enter consolidated report data
 
 	//var iframes, forms []*cdp.Node
-	time.Sleep(5 * time.Second)
+	time.Sleep(2 * time.Second)
 	var iframes []*cdp.Node
 	if err := ch.Run(
 		ctx,
@@ -139,7 +139,7 @@ func main() {
 
 	//*************GET IFRAME IN NODES*************
 	//Affordable Consolidated Receipt
-	time.Sleep(5 * time.Second)
+	time.Sleep(2 * time.Second)
 	if err := ch.Run(
 		ctx,
 		ch.Nodes(consolidateIframe, &iframes, ch.ByQuery),
