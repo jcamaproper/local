@@ -128,13 +128,7 @@ func main() {
 	); err != nil {
 		log.Fatal(err)
 	}
-	/* iframe := iframes[0]
-	if err := ch.Run(
-		ctx,
-		ch.Nodes(`#form`, &forms, ch.ByQuery, ch.FromNode(iframe)),
-	); err != nil {
-		log.Fatal(err)
-	} */
+
 	//*************GET IFRAME IN NODES*************
 
 	//*************GET IFRAME IN NODES*************
