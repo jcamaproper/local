@@ -160,36 +160,6 @@ func main() {
 	); err != nil {
 		log.Fatal(err)
 	}
-	/* func TestQueryIframe(t *testing.T) {
-		t.Parallel()
-
-		ctx, cancel := testAllocate(t, "iframe.html")
-		defer cancel()
-
-		var iframes, forms []*cdp.Node
-		if err := Run(ctx, Nodes(`iframe`, &iframes, ByQuery)); err != nil {
-			t.Fatal(err)
-		}
-		iframe := iframes[0]
-		if err := Run(ctx, Nodes(`#form`, &forms, ByQuery, FromNode(iframe))); err != nil {
-			t.Fatal(err)
-		}
-		form := forms[0]
-
-		var gotFoo string
-		if err := Run(ctx,
-			WaitVisible(`#form`, ByQuery, FromNode(iframe)),
-			Text("#foo", &gotFoo, ByQuery, FromNode(form)),
-
-			Click("#btn1", ByQuery, FromNode(iframe)),
-			Click("#btn2", ByQuery, FromNode(form)),
-		); err != nil {
-			t.Fatal(err)
-		}
-		if want := "insert"; gotFoo != want {
-			t.Fatalf("wanted %q, got %q", want, gotFoo)
-		}
-	}  */
 
 	//******************DO NOT WORK, The infos detected only one target, no an additional for the iFrame****************
 	/* // get the list of the targets first context
