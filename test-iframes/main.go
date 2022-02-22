@@ -35,8 +35,8 @@ const (
 	saveButton       = "#Save_Button"
 
 	//Credentials
-	password = "rwt3fxq@egb3YEG*zvn"
-	username = "martha"
+	password = ""
+	username = ""
 )
 
 func main() {
