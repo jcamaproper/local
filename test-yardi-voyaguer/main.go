@@ -22,8 +22,8 @@ const (
 	habMonth      = "#HAPMonth_TextBox"
 	submitButton  = "#Submit_Button"
 
-	password = "rwt3fxq@egb3YEG*zvn"
-	username = "martha"
+	password = ""
+	username = ""
 )
 
 func main() {
